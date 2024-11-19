@@ -1,0 +1,70 @@
+/* מרכז את התוכן ומגדיר רוחב מקסימלי */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* כותרת מרכזית */
+  .container h2 {
+    text-align: center;
+    color: #4A90E2;
+  }
+  
+  .carList {
+    margin-bottom: 20px;
+
+  }
+  
+  /* עיצוב כל מכונית ברשימה */
+  .carItem {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .carItem p {
+    margin: 5px 0;
+  }
+  
+  /* כותרת הוספת מכונית חדשה */
+  .addCarTitle {
+    color: #4A90E2;
+  }
+  
+  /* עיצוב שדות קלט */
+  .inputField {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* עיצוב כפתור הוספת מכונית */
+  .addCarButton {
+    padding: 10px;
+    background-color: #4A90E2;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .button{
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #380ede;
+    color: #ffffff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+  }
+  
