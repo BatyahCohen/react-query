@@ -12,7 +12,6 @@ export async function GET(req: Request) {
   try {
     let client = await connectDatabase();
     const data = await getAllDocuments(client, "Cars");
-    console.log("data",data)
     return NextResponse.json({data});
   } catch (error) {
     console.error(error);
@@ -40,7 +39,9 @@ export async function POST(req: Request) {
     const data = await req.json();
     const response = await insertDocument(client, "Cars", data);
 
-    return NextResponse.json(response.insertedDocument); // החזרת המסמך המלא
+console.log("NextResponse:"+NextResponse.json(response.insertedDocument))
+
+    return NextResponse.json(response.insertedDocument);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -53,6 +54,7 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
+    console.log("DELETE");
     let client = await connectDatabase();
     const {searchParams}  = new URL(req.url); 
     console.log(searchParams)

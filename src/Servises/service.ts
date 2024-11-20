@@ -14,6 +14,7 @@ export async function add(newCar: any) {
 export async function delete1(id: string) {
   console.log("id: " + id);
   await http.delete(`/cars?id=${id}`);
+  console.log("id: " + id);
   return id;
 }
 

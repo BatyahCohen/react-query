@@ -22,14 +22,38 @@ export default function Cars() {
   });
 
   const addCarMutation = useMutation({
-    mutationFn: add, 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cars"] });
+    mutationFn: add,
+    onSuccess: async (newCarServer, newCar) => {
+      await queryClient.cancelQueries({ queryKey: ["cars"] });
+  
+      const previouscars = queryClient.getQueryData<{ data: { data: any[] } }>(["cars"]);
+  
+      queryClient.setQueryData<{ data: { data: any[] }; status: number; statusText: string; headers: any; config: any; request: any }>(
+        ["cars"],
+        (oldcars) => {
+          if (!oldcars) return undefined;
+
+          const newCarToSend = {_id: newCarServer?.data?._id, ...newCar};
+
+          const updatedCars = [...oldcars.data.data, newCarToSend];
+  
+          return {
+            ...oldcars,
+            data: {
+              ...oldcars.data,
+              data: updatedCars,
+            },
+          };
+        }
+      );
+  
+      console.log("Added car to cache successfully");
     },
     onError: (error: any) => {
-      console.error("Error deleting car:", error);
+      console.error("Error adding car:", error);
     },
   });
+  
 
   const addCar = () => {
     const { _id, ...carData } = newCar
@@ -38,15 +62,36 @@ export default function Cars() {
   };
 
   const deleteCarMutation = useMutation({
-    mutationFn: delete1, 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cars"] });
-      console.log("Deleted car with ID:",cars);
+    mutationFn: delete1,
+    onMutate: async (carId) => {
+      await queryClient.cancelQueries({ queryKey: ["cars"] });
+  
+      const previouscars = queryClient.getQueryData<{ data: { data: any[] } }>(["cars"]);
+  
+      queryClient.setQueryData<{ data: { data: any[] }; status: number; statusText: string; headers: any; config: any; request: any }>(
+        ["cars"],
+        (oldcars) => {
+          if (!oldcars) return undefined; 
+  
+          const updatedCars = oldcars?.data.data.filter((car) => car._id !== carId);
+
+          return {
+            ...oldcars,
+            data: {
+              ...oldcars.data,
+              data: updatedCars,
+            },
+          };
+        }
+      );
+
+      return { previouscars };
     },
-    onError: (error: any) => {
-      console.error("Error deleting car:", error);
+    onError: (_error, _carId, context) => {
+      queryClient.setQueryData(["cars"], context?.previouscars);
     },
   });
+  
 
   const deleteCar = (id: string) => {
     deleteCarMutation.mutate(id);
@@ -58,14 +103,39 @@ export default function Cars() {
   };
 
   const updateCarMutation = useMutation({
-    mutationFn: (carData: { id: string, updatedCar: any }) => update(carData.id, carData.updatedCar), 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cars"] });
+    mutationFn: (carData: { id: string, updatedCar: any }) => update(carData.id, carData.updatedCar),
+    onSuccess: async (newCar, variables) => {
+      await queryClient.cancelQueries({ queryKey: ["cars"] });
+      const previouscars = queryClient.getQueryData<{ data: { data: any[] } }>(["cars"]);
+
+      queryClient.setQueryData<{ data: { data: any[] }; status: number; statusText: string; headers: any; config: any; request: any }>(
+        ["cars"],
+        (oldcars) => {
+          if (!oldcars) return undefined;
+
+      let updateCar={_id:variables.id,...variables.updatedCar}
+
+          const updatedCars = oldcars.data.data.map((car) =>
+            car._id !== variables.id ? car : updateCar
+          );
+  
+          return {
+            ...oldcars,
+            data: {
+              ...oldcars.data,
+              data: updatedCars,
+            },
+          };
+        }
+      );
+  
+      return { previouscars };
     },
     onError: (error: any) => {
-      console.error("Error deleting car:", error);
+      console.error("Error updating car:", error);
     },
   });
+  
 
   const updateCarInServer = () => {
     const { _id, ...carData } = newCar;
