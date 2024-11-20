@@ -1,0 +1,12 @@
+.homeContainer {
+    color: #800000;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .homeText {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  

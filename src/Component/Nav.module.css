@@ -1,31 +1,27 @@
-/* Nav.module.css */
 .nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #333;
-    padding: 1rem;
-  }
-  
-  .navList {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navItem {
-    margin: 0 1rem;
-  }
-  
-  .navLink {
-    text-decoration: none;
-    color: white;
-    font-size: 1.2rem;
-    transition: color 0.3s;
-  }
-  
-  .navLink:hover {
-    color: #ff9900; /* Add hover effect */
-  }
-  
+  background-color: #800000; /* Burgundy */
+  padding: 10px 0;
+}
+
+.navList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navItem {
+  margin: 0 15px;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.navLink:hover {
+  color: #ffb3b3; /* Light pink for hover effect */
+}
